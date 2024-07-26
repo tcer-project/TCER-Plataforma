@@ -24,6 +24,9 @@
   --gradient-1: linear-gradient(90deg, #032034, #053d63 51%);
   --gradient-2: linear-gradient(90deg, #032034, #053d63 51%, #053d63);
   --gradient-3: linear-gradient(0deg, #000d1a, transparent);
+  --gradient-4: linear-gradient(90deg, #ffffff, #f7f7f7 25%, #f0f0f0 75%);
+
+
 
   /** Border colors */
   --border-wild-blue-yonder: hsla(216, 33%, 68%, 1);
@@ -203,13 +206,13 @@ body.nav-active { overflow: hidden; }
 .profile-card .profile-banner { border-radius: var(--radius-circle); }
 
 .headline {
-  color: var(--text-columbia-blue);
+  color: var(--text-white);
   line-height: var(--lineHeight-1);
 }
 
 .headline-1 {
   font-size: var(--fontSize-1);
-  color: var(--text-alice-blue);
+  color: var(--text-white);
   font-weight: var(--weight-extraBold);
 }
 
@@ -224,6 +227,13 @@ body.nav-active { overflow: hidden; }
 
 .headline .span {
   background-image: var(--gradient-1);
+  display: inline-block;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+.headline .span2 {
+  background-image: var(--gradient-4);
   display: inline-block;
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
@@ -423,11 +433,34 @@ body.nav-active { overflow: hidden; }
 
 .hero-bg { display: none; }
 
-.hero { padding-block-start: calc(var(--section-padding) + 160px); }
+.hero {
+  position: relative;
+  padding-block-start: calc(var(--section-padding) + 160px);
+  background-image: url('../images/fondo_web_tcer.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -5;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
 
 .hero .container {
   display: grid;
   gap: 50px;
+}
+
+.hero-content{
+  z-index: 4;
 }
 
 .hero-subtitle {
@@ -437,7 +470,10 @@ body.nav-active { overflow: hidden; }
 
 .hero .section-title { margin-block: 20px; }
 
-.hero .hero-text { margin-block-end: 40px; }
+.hero .hero-text { 
+  margin-block-end: 40px; 
+  color: var(--text-white);
+}
 
 .hero .input-wrapper:hover { box-shadow: var(--shadow-2); }
 
@@ -455,7 +491,10 @@ body.nav-active { overflow: hidden; }
 
 .hero .input-field { padding-inline-end: 5px; }
 
-.hero-banner { position: relative; }
+.hero-banner { 
+  position: relative; 
+  z-index: 4;
+}
 
 .hero-banner .w-100 {
   max-width: max-content;
