@@ -6,42 +6,44 @@ function abrirFormulario(combo) {
   document.getElementById('menu-pedidos').style.display = 'none';
 }
 
-function enviarOrden(event) {
+async function enviarOrden(event) {
   event.preventDefault();
 
+  const form = event.target;
+  const formData = new FormData(form);
   const orden = {
-      nombre: event.target.nombre.value,
-      direccion: event.target.direccion.value,
-      telefono: event.target.telefono.value,
-      cantidad: event.target.cantidad.value,
-      combo: event.target.combo.value,
-      id: generarIDUnico()
+    id: formData.get('id'),
+    nombre: formData.get('nombre'),
+    direccion: formData.get('direccion'),
+    telefono: formData.get('telefono'),
+    cantidad: formData.get('cantidad'),
+    combo: formData.get('combo')
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbwF2Xh6ktXtb2nhOo_nHEKOORdQ_0zy5r-q4tDnBhZX0WGCymWjGBWhzLuRmEVbUY4/exec", { 
-      method: "POST",
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzQuSa7isR9RBh8hSkJCglioxtkO1DIRe6-A5md7dV91QmcnLUDCFg3QAMwqGFV7NMa/exec', {
+      method: 'POST',
       headers: {
-          "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(orden)
-  })
-  .then(response => response.json())
-  .then(data => {
-      if (data.success) {
-          alert("Orden enviada exitosamente.");
-          agregarOrden(orden);
-          mostrarOrdenAdmin(orden);
-          document.getElementById('formulario-orden').style.display = 'none';
-          document.getElementById('menu-pedidos').style.display = 'block';
-      } else {
-          alert("Hubo un error al enviar la orden.");
-      }
-  })
-  .catch((error) => {
-      console.error("Error al enviar la orden:", error);
-      alert("Hubo un error al enviar la orden.");
-  });
+    });
+
+    const data = await response.json();
+    if (data.success) {
+      console.log('Orden enviada exitosamente:', data.message);
+      alert('Orden enviada exitosamente');
+    } else {
+      console.error('Error al enviar la orden:', data.message);
+      alert('Error al enviar la orden: ' + data.message);
+    }
+  } catch (error) {
+    console.error('Error al enviar la orden:', error);
+    alert('Error al enviar la orden. Intenta nuevamente.');
+  }
 }
+
+document.getElementById('tuFormularioId').onsubmit = enviarOrden; 
 
 function generarIDUnico() {
   return 'orden-' + Math.random().toString(36).substr(2, 9);
@@ -57,16 +59,4 @@ function mostrarOrdenAdmin(orden) {
   const li = document.createElement('li');
   li.textContent = `ID: ${orden.id}, Combo: ${orden.combo}, Cliente: ${orden.nombre}, Cantidad: ${orden.cantidad}`;
   listaOrdenes.appendChild(li);
-}
-
-if (window.location.pathname.includes('admin.html')) {
-  cargarOrdenesAdmin();
-}
-
-function cargarOrdenesAdmin() {
-  const listaOrdenes = document.getElementById('lista-ordenes');
-  listaOrdenes.innerHTML = '';  // Limpiar lista
-  ordenes.forEach((orden) => {
-    mostrarOrdenAdmin(orden);  // Mostrar todas las órdenes en el panel de administración
-  });
 }
