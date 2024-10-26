@@ -1,72 +1,68 @@
-let ordenes = [];
+// Array para almacenar las órdenes
+const ordenes = [];
 
+// Función para abrir el formulario y seleccionar el combo
 function abrirFormulario(combo) {
-  document.getElementById('comboSeleccionado').value = combo;
-  document.getElementById('formulario-orden').style.display = 'block';
-  document.getElementById('menu-pedidos').style.display = 'none';
+    console.log("Combo seleccionado:", combo); // Verificar el combo seleccionado
+
+    const comboSeleccionado = document.getElementById('comboSeleccionado');
+    const comboNombre = document.getElementById('comboNombre').querySelector('strong');
+    
+    comboSeleccionado.value = combo; // Establecer el combo seleccionado
+    comboNombre.textContent = combo; // Mostrar el combo en el formulario
+
+    // Mostrar el modal
+    const modal = document.getElementById('modal');
+    modal.style.display = "block"; // Mostrar el modal
+
+    console.log("Formulario visible:", modal.style.display); // Verificar estado del formulario
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const form = document.getElementById('tuFormularioId');
-  if (form) {
-      form.onsubmit = enviarOrden;
-  } else {
-      console.error('El formulario no se encontró.');
-  }
-});
-
+// Función para cerrar el formulario
+function cerrarFormulario() {
+    const modal = document.getElementById('modal');
+    modal.style.display = "none"; // Ocultar el modal
+}
 
 async function enviarOrden(event) {
-  event.preventDefault();
+  event.preventDefault(); // Prevenir el envío del formulario
 
-  const form = event.target;
-  const formData = new FormData(form);
+  // Crear un objeto orden a partir de los datos del formulario
+  const formData = new FormData(event.target);
   const orden = {
-    id: formData.get('id'),
-    nombre: formData.get('nombre'),
-    direccion: formData.get('direccion'),
-    telefono: formData.get('telefono'),
-    cantidad: formData.get('cantidad'),
-    combo: formData.get('combo')
+      nombre: formData.get('nombre'),
+      direccion: formData.get('direccion'),
+      telefono: formData.get('telefono'),
+      cantidad: formData.get('cantidad'),
+      combo: formData.get('combo')
   };
 
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzQuSa7isR9RBh8hSkJCglioxtkO1DIRe6-A5md7dV91QmcnLUDCFg3QAMwqGFV7NMa/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(orden)
-    });
+  console.log("Orden a enviar:", orden); // Verificar la orden que se va a enviar
 
-    const data = await response.json();
-    if (data.success) {
-      console.log('Orden enviada exitosamente:', data.message);
-      alert('Orden enviada exitosamente');
-    } else {
-      console.error('Error al enviar la orden:', data.message);
-      alert('Error al enviar la orden: ' + data.message);
-    }
+  // Enviar la orden al Google Apps Script
+  try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzQuSa7isR9RBh8hSkJCglioxtkO1DIRe6-A5md7dV91QmcnLUDCFg3QAMwqGFV7NMa/exec', {
+          method: 'POST',
+          body: new URLSearchParams(orden)
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      agregarOrden(data.orden); // Agregar la orden a la lista
+      event.target.reset(); // Reiniciar el formulario
+      cerrarFormulario(); // Cerrar el modal después de enviar
   } catch (error) {
-    console.error('Error al enviar la orden:', error);
-    alert('Error al enviar la orden. Intenta nuevamente.');
+      console.error('Error al enviar la orden:', error);
   }
 }
 
-document.getElementById('tuFormularioId').onsubmit = enviarOrden; 
-
-function generarIDUnico() {
-  return 'orden-' + Math.random().toString(36).substr(2, 9);
-}
-
+// Función para agregar la orden a la lista
 function agregarOrden(orden) {
-  ordenes.push(orden);
-  mostrarOrdenAdmin(orden);
-}
-
-function mostrarOrdenAdmin(orden) {
-  const listaOrdenes = document.getElementById('lista-ordenes');
-  const li = document.createElement('li');
-  li.textContent = `ID: ${orden.id}, Combo: ${orden.combo}, Cliente: ${orden.nombre}, Cantidad: ${orden.cantidad}`;
-  listaOrdenes.appendChild(li);
+    const listaOrdenes = document.getElementById('lista-ordenes');
+    const li = document.createElement('li');
+    li.textContent = `ID: ${orden.id}, Combo: ${orden.combo}, Cliente: ${orden.nombre}, Cantidad: ${orden.cantidad}`;
+    listaOrdenes.appendChild(li);
 }
