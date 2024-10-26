@@ -58,15 +58,3 @@ function mostrarOrdenAdmin(orden) {
   li.textContent = `ID: ${orden.id}, Combo: ${orden.combo}, Cliente: ${orden.nombre}, Cantidad: ${orden.cantidad}`;
   listaOrdenes.appendChild(li);
 }
-
-if (window.location.pathname.includes('admin.html')) {
-  cargarOrdenesAdmin();
-}
-
-function cargarOrdenesAdmin() {
-  const listaOrdenes = document.getElementById('lista-ordenes');
-  listaOrdenes.innerHTML = '';  // Limpiar lista
-  ordenes.forEach((orden) => {
-    mostrarOrdenAdmin(orden);  // Mostrar todas las órdenes en el panel de administración
-  });
-}
