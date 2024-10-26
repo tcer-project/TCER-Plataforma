@@ -18,7 +18,7 @@ function enviarOrden(event) {
       id: generarIDUnico()
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbzWSbnzuT4RWgfCAgHhFZUOFWPwX1WXOVFn23GJ4Q3XNuUmvIbXdc70XS28NI6ycSgI/exec", { 
+  fetch("https://script.google.com/macros/s/AKfycbyS_f9xCuiNA7Z3oRMsd7W14ANSwmc_eGyX7-I2NTQST7FqIlUGTt7hfl88WFSCPNZh/exec", { 
       method: "POST",
       headers: {
           "Content-Type": "application/json"
