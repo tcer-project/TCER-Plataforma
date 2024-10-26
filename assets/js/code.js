@@ -6,6 +6,16 @@ function abrirFormulario(combo) {
   document.getElementById('menu-pedidos').style.display = 'none';
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('tuFormularioId');
+  if (form) {
+      form.onsubmit = enviarOrden;
+  } else {
+      console.error('El formulario no se encontró.');
+  }
+});
+
+
 async function enviarOrden(event) {
   event.preventDefault();
 
