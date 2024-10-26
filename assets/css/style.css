@@ -1,0 +1,160 @@
+/* Estilo General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  h1, h2 {
+    margin: 10px 0;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Estilo del menú de combos */
+  #menu-pedidos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  
+  .combo {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .combo img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .combo h3, .combo p {
+    margin: 10px;
+    text-align: center;
+  }
+  
+  .combo:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Formulario de orden */
+  #formulario-orden {
+    display: none;
+    background-color: white;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  button {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #218838;
+  }
+  
+  /* Órdenes en la página de administración */
+  #ordenes-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  ul li {
+    background-color: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilo Responsive */
+  
+  /* Para pantallas grandes: Diseño horizontal */
+  @media (min-width: 768px) {
+    #menu-pedidos {
+      flex-direction: row;
+    }
+  
+    .combo {
+      flex-direction: row;
+      width: 600px;
+      height: 200px;
+    }
+  
+    .combo img {
+      width: 50%;
+      height: 100%;
+    }
+  
+    .combo h3, .combo p {
+      text-align: left;
+      margin: 0 15px;
+    }
+  }
+  
+  /* Para pantallas pequeñas: Diseño vertical */
+  @media (max-width: 767px) {
+    #menu-pedidos {
+      flex-direction: column;
+    }
+  
+    .combo {
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+    }
+  
+    .combo img {
+      height: 200px;
+    }
+  }
+  
